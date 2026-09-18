@@ -1,0 +1,116 @@
+# Early-Stage Pancreatic Cancer Detection Using Random Forest Classification on Clinical Biomarker Data
+
+An end-to-end machine learning pipeline that classifies pancreatic cancer
+status (**Control / Benign / PDAC**) from urinary biomarker data (CA19-9,
+creatinine, LYVE1, REG1B, TFF1, age, sex, sample origin) using a **Random
+Forest classifier** — the only data mining technique used in this project,
+as required by the assignment (no ensembling with other model families, no
+deep learning).
+
+> **⚠️ Dataset assumption:** this repo targets the real
+> ["Urinary biomarkers for pancreatic cancer"](https://www.kaggle.com/datasets/johnjdavisiv/urinary-biomarkers-for-pancreatic-cancer)
+> dataset (Debernardi et al., 2020). Because this environment has no
+> network access to download it, the pipeline currently runs on a
+> **synthetic dataset generated to match its schema and class balance**.
+> See [`data/README.md`](data/README.md) for exactly what to download and
+> where to drop it in — the pipeline itself does not need to change.
+
+## Project structure
+
+```
+.
+├── data/
+│   ├── raw/urinary_biomarkers.csv     # synthetic placeholder (see data/README.md)
+│   ├── processed/train.csv, test.csv  # cleaned, split output of preprocess.py
+│   └── README.md                      # dataset source, license, assumptions
+├── notebooks/
+│   └── eda.ipynb                      # exploratory data analysis
+├── src/
+│   ├── data_loader.py                 # loads / generates the raw dataset
+│   ├── preprocess.py                  # cleaning, encoding, scaling, train/test split
+│   ├── train.py                       # SMOTE + GridSearchCV Random Forest training
+│   ├── evaluate.py                    # metrics, confusion matrix, ROC, feature importance
+│   └── predict.py                     # inference on new samples
+├── models/
+│   ├── preprocessor.pkl               # fitted preprocessing pipeline
+│   └── random_forest_model.pkl        # trained, tuned Random Forest
+├── reports/
+│   ├── confusion_matrix.png
+│   ├── roc_curve.png
+│   ├── feature_importance.png         # key insight: which biomarkers matter most
+│   ├── metrics.json
+│   └── report.md                      # full write-up: methodology, results, limitations
+├── requirements.txt
+└── README.md
+```
+
+## Setup
+
+```bash
+python3 -m venv venv
+source venv/bin/activate            # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## How to run
+
+Run each stage in order (each script can also be run standalone — later
+stages will regenerate what they need from earlier ones):
+
+```bash
+cd src
+
+# 1. Generate/load the raw dataset
+python data_loader.py
+
+# 2. Clean, encode, scale, split into train/test
+python preprocess.py
+
+# 3. Train the Random Forest (SMOTE + GridSearchCV hyperparameter tuning)
+python train.py
+
+# 4. Evaluate on the held-out test set (metrics + plots -> ../reports/)
+python evaluate.py
+
+# 5. Predict on a new sample (built-in example, or --csv path/to/file.csv)
+python predict.py
+```
+
+Or explore interactively: `jupyter notebook ../notebooks/eda.ipynb`.
+
+## Results summary
+
+On the current (synthetic) dataset, the tuned Random Forest achieves:
+
+| Metric | Value |
+|---|---|
+| Accuracy | 0.915 |
+| Macro ROC-AUC (one-vs-rest) | 0.983 |
+| Macro F1 | 0.917 |
+
+The most predictive biomarkers, by feature importance, are **REG1B**,
+**TFF1**, and **plasma CA19-9** — see
+[`reports/feature_importance.png`](reports/feature_importance.png).
+
+Full methodology, per-class metrics, limitations, and future work are in
+[`reports/report.md`](reports/report.md) — written to be adaptable
+directly for a project submission or viva presentation.
+
+## Key design decisions (for viva prep)
+
+- **Target leakage removed:** `stage` and `benign_sample_diagnosis` are
+  dropped before modeling — both are only populated *after* a diagnosis is
+  known, so keeping them would let the model "cheat."
+- **Class imbalance:** handled with SMOTE (applied inside cross-validation
+  folds via an `imblearn` pipeline, so no synthetic data leaks into
+  validation/test) plus `class_weight='balanced'` on the forest itself.
+- **Hyperparameter tuning:** `GridSearchCV` with stratified 5-fold CV,
+  optimizing macro-F1 (all three classes weighted equally, since missing a
+  minority PDAC case is the costly error).
+- **Evaluation integrity:** the test set is never touched during fitting or
+  tuning — all reported metrics reflect genuine held-out performance.
+
+## License / data source
+
+See [`data/README.md`](data/README.md) for the target dataset's citation
+and license (CC BY 4.0, per Debernardi et al., 2020).
