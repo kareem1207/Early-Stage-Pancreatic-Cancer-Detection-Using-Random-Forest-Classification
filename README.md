@@ -30,7 +30,8 @@ deep learning).
 │   ├── preprocess.py                  # cleaning, encoding, scaling, train/test split
 │   ├── train.py                       # SMOTE + GridSearchCV Random Forest training
 │   ├── evaluate.py                    # metrics, confusion matrix, ROC, feature importance
-│   └── predict.py                     # inference on new samples
+│   ├── predict.py                     # inference on new samples (CLI)
+│   └── app.py                         # Streamlit UI for interactive predictions
 ├── models/
 │   ├── preprocessor.pkl               # fitted preprocessing pipeline
 │   └── random_forest_model.pkl        # trained, tuned Random Forest
@@ -77,6 +78,22 @@ python predict.py
 ```
 
 Or explore interactively: `jupyter notebook ../notebooks/eda.ipynb`.
+
+## Interactive UI
+
+Once `train.py` has been run at least once (so `models/*.pkl` exist), launch
+the Streamlit app to enter a patient's biomarkers by hand and get a live
+prediction, instead of editing a CSV:
+
+```bash
+cd src
+streamlit run app.py
+```
+
+This opens a form (age, sex, cohort, origin, CA19-9, creatinine, LYVE1,
+REG1B, TFF1, REG1A) and shows the predicted class, per-class probabilities,
+and the feature-importance plot. It's a thin wrapper around `predict.py` —
+no separate model logic, so the UI can't drift from the CLI's behavior.
 
 ## Results summary
 
