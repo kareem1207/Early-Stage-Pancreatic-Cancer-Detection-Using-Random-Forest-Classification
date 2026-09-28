@@ -1,0 +1,106 @@
+{
+  "accuracy": 0.9152542372881356,
+  "roc_auc_macro_ovr": 0.9834078106097076,
+  "classification_report": {
+    "Control": {
+      "precision": 1.0,
+      "recall": 0.8918918918918919,
+      "f1-score": 0.9428571428571428,
+      "support": 37.0
+    },
+    "Benign": {
+      "precision": 0.8297872340425532,
+      "recall": 0.9512195121951219,
+      "f1-score": 0.8863636363636364,
+      "support": 41.0
+    },
+    "PDAC": {
+      "precision": 0.9473684210526315,
+      "recall": 0.9,
+      "f1-score": 0.9230769230769231,
+      "support": 40.0
+    },
+    "accuracy": 0.9152542372881356,
+    "macro avg": {
+      "precision": 0.9257185516983949,
+      "recall": 0.9143704680290047,
+      "f1-score": 0.9174325674325674,
+      "support": 118.0
+    },
+    "weighted avg": {
+      "precision": 0.9230170630326267,
+      "recall": 0.9152542372881356,
+      "f1-score": 0.9165228838957652,
+      "support": 118.0
+    }
+  },
+  "top_features": [
+    [
+      "REG1B",
+      0.2613668441732457
+    ],
+    [
+      "TFF1",
+      0.24374908377654148
+    ],
+    [
+      "plasma_CA19_9",
+      0.18524915603900072
+    ],
+    [
+      "LYVE1",
+      0.12413783783547108
+    ],
+    [
+      "REG1A",
+      0.07723818263703833
+    ],
+    [
+      "creatinine",
+      0.035800544071997877
+    ],
+    [
+      "age",
+      0.030531643318430217
+    ],
+    [
+      "patient_cohort_Cohort2",
+      0.0060206209325985496
+    ],
+    [
+      "sample_origin_BPTB",
+      0.006013443405853966
+    ],
+    [
+      "sample_origin_ESP",
+      0.005982907987249164
+    ],
+    [
+      "sample_origin_UCL",
+      0.0054176200399222805
+    ],
+    [
+      "patient_cohort_Cohort1",
+      0.0051223053573155675
+    ],
+    [
+      "sex_F",
+      0.004784314868102885
+    ],
+    [
+      "sex_M",
+      0.004473943461850781
+    ],
+    [
+      "sample_origin_LIV",
+      0.004111552095381317
+    ]
+  ],
+  "best_hyperparameters": {
+    "rf__max_depth": 10,
+    "rf__max_features": "sqrt",
+    "rf__min_samples_leaf": 1,
+    "rf__n_estimators": 200
+  },
+  "cv_best_macro_f1": 0.939341661333388
+}
