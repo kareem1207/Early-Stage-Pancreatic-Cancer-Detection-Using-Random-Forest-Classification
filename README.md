@@ -95,6 +95,33 @@ REG1B, TFF1, REG1A) and shows the predicted class, per-class probabilities,
 and the feature-importance plot. It's a thin wrapper around `predict.py` —
 no separate model logic, so the UI can't drift from the CLI's behavior.
 
+## Hindsight memory agent (surveillance layer)
+
+The Random Forest scores each sample in isolation. `src/agent.py` wraps it in an
+agent backed by [Hindsight](https://github.com/vectorize-io/hindsight) memory
+so it can track **each patient across visits** and learn from **clinician
+feedback**:
+
+- **retain**: every visit (biomarkers, RF call) and every clinician verdict, tagged `patient:<id>`
+- **recall**: prior visits and confounder notes before each new prediction
+- **trend flags**: marker rises vs. the last visit surface risk before the classifier crosses PDAC
+- **confounder memory**: a clinician-overruled false alarm is remembered, so the repeat is routed to review instead of re-escalated
+
+```bash
+pip install -r requirements.txt
+cd src
+python demo.py                       # offline JSON fallback memory
+HINDSIGHT_BASE_URL=https://... HINDSIGHT_API_KEY=... python demo.py   # real Hindsight
+```
+
+`demo.py` prints stateless RF vs. memory-backed agent on two synthetic patients.
+Code: `src/memory.py` (Hindsight + fallback), `src/agent.py`, `src/demo.py`.
+Content drafts and a submission checklist are in [`submission/`](submission/).
+
+> Research prototype on synthetic data, not a diagnostic device. The Hindsight
+> backend is written against the `hindsight-client` SDK but has not yet been
+> exercised against a live server; the offline fallback is what `demo.py` ran on.
+
 ## Results summary
 
 On the current (synthetic) dataset, the tuned Random Forest achieves:
