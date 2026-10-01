@@ -7,3 +7,4 @@ seaborn==0.13.2
 joblib==1.4.2
 jupyter==1.0.0
 streamlit==1.38.0
+hindsight-client>=0.10
