@@ -1,0 +1,11 @@
+[train] Loading and preprocessing data...
+[data_loader] Loaded existing dataset <- ./data/raw/urinary_biomarkers.csv (590 rows)
+[preprocess] Saved 472 train / 118 test rows -> ./data/processed
+[preprocess] Saved fitted preprocessor -> ./models/preprocessor.pkl
+[train] Running GridSearchCV (SMOTE + RandomForest, 5-fold CV, scoring=f1_macro)...
+Fitting 5 folds for each of 54 candidates, totalling 270 fits
+
+[train] Best CV macro-F1: 0.9393
+[train] Best hyperparameters: {'rf__max_depth': 10, 'rf__max_features': 'sqrt', 'rf__min_samples_leaf': 1, 'rf__n_estimators': 200}
+[train] Saved best model -> ./models/random_forest_model.pkl
+[train] Saved test split + metadata -> ./models/test_split_and_meta.pkl
