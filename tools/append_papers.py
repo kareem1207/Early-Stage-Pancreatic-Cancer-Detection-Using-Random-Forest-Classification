@@ -1,6 +1,6 @@
 """Append the full text of the reference papers to the end of the report PDF.
 
-Download the two papers yourself (links are in Appendix A of the report), then:
+Download the two papers yourself (DOIs are in the report's reference list), then:
 
     uv run --with pypdf python tools/append_papers.py \
         reports/research_paper.pdf debernardi2020.pdf breiman2001.pdf \
