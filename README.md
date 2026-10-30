@@ -45,6 +45,12 @@ deep learning).
 └── README.md
 ```
 
+## Run it in Google Colab (no setup)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/kareem1207/Early-Stage-Pancreatic-Cancer-Detection-Using-Random-Forest-Classification/blob/main/notebooks/colab_run.ipynb)
+
+Open the notebook and choose *Runtime → Run all*. It clones this repo, trains the model, evaluates it, shows the plots and predicts for a custom patient in about a minute on the free CPU runtime.
+
 ## Setup
 
 ```bash
