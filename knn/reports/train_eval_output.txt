@@ -1,0 +1,29 @@
+[knn] Loading and preprocessing data (shared with the Random Forest pipeline)...
+[data_loader] Loaded existing dataset <- ./data/raw/urinary_biomarkers.csv (590 rows)
+[knn] Running GridSearchCV (SMOTE + KNN, 5-fold CV, macro-F1)...
+Fitting 5 folds for each of 36 candidates, totalling 180 fits
+
+[knn] Best CV macro-F1: 0.8435
+[knn] Best hyperparameters: {'knn__n_neighbors': 31, 'knn__p': 1, 'knn__weights': 'distance'}
+
+[knn] Accuracy: 0.8136
+[knn] Macro ROC-AUC (OvR): 0.9452
+
+[knn] Classification report:
+              precision    recall  f1-score   support
+
+     Control       0.81      0.78      0.79        37
+      Benign       0.73      0.73      0.73        41
+        PDAC       0.90      0.93      0.91        40
+
+    accuracy                           0.81       118
+   macro avg       0.81      0.81      0.81       118
+weighted avg       0.81      0.81      0.81       118
+
+
+[knn] Top 5 most important biomarkers (permutation):
+  REG1B: 0.1702
+  TFF1: 0.0890
+  plasma_CA19_9: 0.0550
+  LYVE1: 0.0453
+  sample_origin_LIV: 0.0139

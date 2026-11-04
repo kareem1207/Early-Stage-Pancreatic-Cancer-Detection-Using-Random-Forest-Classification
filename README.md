@@ -137,3 +137,7 @@ directly for a project submission or viva presentation.
 
 See [`data/README.md`](data/README.md) for the target dataset's citation
 and license (CC BY 4.0, per Debernardi et al., 2020).
+
+## K-Nearest Neighbors variant
+
+`knn/` holds a KNN version of the whole project (same data, preprocessing and split; KNN replaces Random Forest): `python knn/knn_pipeline.py` trains and evaluates it, and `knn/reports/` has its figures, metrics, console output and `knn_research_paper.pdf/.docx`. On the same test split KNN reaches 81.4% accuracy / 0.945 macro ROC-AUC, versus 91.5% / 0.983 for the Random Forest.
